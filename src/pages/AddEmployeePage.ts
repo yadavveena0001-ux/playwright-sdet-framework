@@ -6,7 +6,6 @@ export class AddEmployeePage extends BasePage {
   private readonly lastNameInput = this.page.getByPlaceholder('Last Name');
   private readonly employeeIdInput = this.page.locator('.orangehrm-edit-employee-name input').nth(3);
   private readonly saveButton = this.page.getByRole('button', { name: 'Save' });
-  private readonly successToast = this.page.locator('.oxd-toast-content--success');
 
   constructor(page: Page) {
     super(page);
@@ -23,6 +22,10 @@ export class AddEmployeePage extends BasePage {
   }
 
   async expectCreationSuccess() {
-    await this.expectVisible(this.successToast);
+    // The success toast fades within a few seconds, which is unreliable to
+    // assert against under CI network latency. On successful save, OrangeHRM
+    // redirects to the new employee's Personal Details page — that URL
+    // change is a far more stable signal of success than a transient toast.
+    await this.page.waitForURL(/viewPersonalDetails/, { timeout: 20_000 });
   }
 }
