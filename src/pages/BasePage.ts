@@ -12,6 +12,9 @@ export class BasePage {
     // site keeps background network activity going after the page is
     // usable, which was causing 'load' to time out under parallel load.
     await this.page.goto(path, { waitUntil: 'domcontentloaded' });
+    // Give CI runners (often slower/throttled reaching public demo sites)
+    // extra grace before we start looking for elements.
+    await this.page.waitForLoadState('networkidle', { timeout: 15_000 }).catch(() => {});
   }
 
   async waitForLoadingToFinish() {
@@ -21,12 +24,12 @@ export class BasePage {
   }
 
   async fill(locator: Locator, value: string) {
-    await locator.waitFor({ state: 'visible' });
+    await locator.waitFor({ state: 'visible', timeout: 15_000 });
     await locator.fill(value);
   }
 
   async click(locator: Locator) {
-    await locator.waitFor({ state: 'visible' });
+    await locator.waitFor({ state: 'visible', timeout: 15_000 });
     await locator.click();
   }
 
