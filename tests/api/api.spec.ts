@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
 
 test.describe('API @regression', () => {
-  const apiBaseURL = 'https://jsonplaceholder.typicode.com'\;
+  const apiBaseURL = 'https://jsonplaceholder.typicode.com';
 
   test('GET /users returns a list of users', async ({ request }) => {
     const response = await request.get(`${apiBaseURL}/users`);
