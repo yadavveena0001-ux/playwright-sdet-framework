@@ -1,11 +1,5 @@
 import { test, expect } from '@playwright/test';
 
-/**
- * Demonstrates API-layer testing with Playwright's built-in request context —
- * no browser needed. In a real project this would hit your own service's
- * REST/GraphQL endpoints; JSONPlaceholder is used here as a stand-in public
- * API (no auth/API key required) so the suite is runnable out of the box in CI.
- */
 test.describe('API @regression', () => {
   const apiBaseURL = 'https://jsonplaceholder.typicode.com'\;
 
